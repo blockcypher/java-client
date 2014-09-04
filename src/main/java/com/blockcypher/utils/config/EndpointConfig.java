@@ -49,11 +49,13 @@ public class EndpointConfig {
             Properties prop = new Properties();
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
             InputStream stream = loader.getResourceAsStream(PROPERTY_FILE);
-            prop.load(stream);
-            propertyFileVersion = prop.getProperty("version");
-            propertyFileCurrency = prop.getProperty("currency");
-            propertyFileNetwork = prop.getProperty("network");
-            propertyFileEndpoint = prop.getProperty("endpoint");
+            if (stream != null) {
+                prop.load(stream);
+                propertyFileVersion = prop.getProperty("version");
+                propertyFileCurrency = prop.getProperty("currency");
+                propertyFileNetwork = prop.getProperty("network");
+                propertyFileEndpoint = prop.getProperty("endpoint");
+            }
         } catch (IOException e) {
             logger.info("No Init Property file found: " + PROPERTY_FILE, e);
         }

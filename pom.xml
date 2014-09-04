@@ -169,7 +169,9 @@
 		</repository>
 	</distributionManagement>
 
-	<!-- mvn deploy -DskipTests -->
+	<!-- mvn deploy -DskipTests 
+		Follow more or less this for github mvn-repo push: http://stackoverflow.com/questions/14013644/hosting-a-maven-repository-on-github
+	-->
 	<build>
 		<plugins>
 			<plugin>
@@ -182,6 +184,9 @@
 			<plugin>
 				<groupId>com.github.github</groupId>
 				<artifactId>site-maven-plugin</artifactId>
+				<!-- Have to take snapshot but even this one is buggy... https://api.github.com/users/xxx does not have email and user while SiteMojo expect one so recompile snapshot... 
+					https://github.com/github/maven-plugins/issues/70
+				-->
 				<version>0.10-SNAPSHOT</version>
 				<configuration>
 					<message>Maven artifacts for ${project.version}</message>
