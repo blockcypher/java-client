@@ -4,7 +4,7 @@ import com.blockcypher.exception.BlockCypherException;
 import com.blockcypher.model.address.Address;
 import com.blockcypher.model.transaction.Transaction;
 import com.blockcypher.model.transaction.intermediary.IntermediaryTransaction;
-import com.blockcypher.service.utils.SignUtils;
+import com.blockcypher.utils.sign.SignUtils;
 import com.blockcypher.utils.gson.GsonFactory;
 import com.google.bitcoin.core.AddressFormatException;
 import com.google.gson.JsonObject;

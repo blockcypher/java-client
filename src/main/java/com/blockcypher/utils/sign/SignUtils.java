@@ -1,4 +1,4 @@
-package com.blockcypher.service.utils;
+package com.blockcypher.utils.sign;
 
 import com.blockcypher.model.transaction.intermediary.IntermediaryTransaction;
 import com.google.bitcoin.core.AddressFormatException;

@@ -3,7 +3,7 @@ package com.blockcypher.service;
 import com.blockcypher.exception.BlockCypherException;
 import com.blockcypher.model.transaction.Transaction;
 import com.blockcypher.model.transaction.intermediary.IntermediaryTransaction;
-import com.blockcypher.service.utils.SignUtils;
+import com.blockcypher.utils.sign.SignUtils;
 import com.blockcypher.utils.gson.GsonFactory;
 import org.apache.log4j.Logger;
 import org.junit.Test;
