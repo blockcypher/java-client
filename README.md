@@ -68,7 +68,10 @@ System.out.println("Sent transaction: " + GsonFactory.getGsonPrettyPrint().toJso
 
 It will print the following:
 ```
-Sent transaction: {
+Sent transaction: 
+```
+```json
+{
   "hash": "219e58e159851626b728a10d8f2aedcfca387dd4371242f421be27f70f19585a",
   "block_height": -1,
   "addresses": [
