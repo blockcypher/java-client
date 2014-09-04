@@ -54,18 +54,67 @@ Transaction fees are: 0
 String myPrivateKey = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 IntermediaryTransaction unsignedTx = context.getTransactionService()
     .newTransaction(
-	    new ArrayList<String>(Arrays.asList("mvYwMT3aZ5jNcRNNjv7ckxjbqMDtvQbAHz")),
+        new ArrayList<String>(Arrays.asList("mvYwMT3aZ5jNcRNNjv7ckxjbqMDtvQbAHz")),
         new ArrayList<String>(Arrays.asList("n3hDuRYeYaeV4aEBqYF9byMK5B2c3tR1nB")),
         500000
     );
 SignUtils.signWithBase58KeyWithPubKey(unsignedTx, myPrivateKey);
 
-Transaction transaction = context.getTransactionService().sendTransaction(unsignedTx);
+Transaction tx = context.getTransactionService().sendTransaction(unsignedTx);
 
-System.out.println("Sent transaction: " + GsonFactory.getGson().toJson(transaction));
+System.out.println("Sent transaction: " + GsonFactory.getGsonPrettyPrint().toJson(tx));
 ```
 
 It will print the following:
 ```
-Sent transaction: {"hash":"9a08144072b00abb263a85db31f7b444e93aca6cc0daa5113d71ed46800a75ae","block_height":-1,"addresses":["mvYwMT3aZ5jNcRNNjv7ckxjbqMDtvQbAHz","n3hDuRYeYaeV4aEBqYF9byMK5B2c3tR1nB"],"total":91570000,"fees":0,"relayed_by":"127.0.0.1:48758","confirmed":"0001-01-01T00:00:00Z","received":"2014-09-04T15:03:55.117978081Z","ver":1,"lock_time":0,"vin_sz":1,"vout_sz":2,"confirmations":0,"inputs":[{"prev_hash":"1fd15302b378630a997b7061667877e8d4de4cd1144a9fc868c2f36ab681ae7e","output_index":3,"script":"47304402203b6a118441e1e78185bf2df5592dfd9218f10ab964b7e200b3052522e434457a022053bf917ad005bfea29f7ac5b322a48a5af695bcf483047a6a32f350ae0305cff012102b93edbd6aa7df3510a1e76d355428f382e5a25e167560eea34055f6f98d6bae4","output_value":91570000,"addresses":["mvYwMT3aZ5jNcRNNjv7ckxjbqMDtvQbAHz"],"script_type":"pay-to-pubkey-hash"}],"outputs":[{"value":500000,"script":"76a914f343f510e12156df80fee18ea1a319002f55747788ac","spent_by":"","addresses":["n3hDuRYeYaeV4aEBqYF9byMK5B2c3tR1nB"],"script_type":"pay-to-pubkey-hash"},{"value":91070000,"script":"76a914a4e9eecbbfd050cb2d47eb0452a97ccb607f53c788ac","spent_by":"","addresses":["mvYwMT3aZ5jNcRNNjv7ckxjbqMDtvQbAHz"],"script_type":"pay-to-pubkey-hash"}]}
+Sent transaction: {
+  "hash": "219e58e159851626b728a10d8f2aedcfca387dd4371242f421be27f70f19585a",
+  "block_height": -1,
+  "addresses": [
+    "mvYwMT3aZ5jNcRNNjv7ckxjbqMDtvQbAHz",
+    "n3hDuRYeYaeV4aEBqYF9byMK5B2c3tR1nB"
+  ],
+  "total": 89410000,
+  "fees": 0,
+  "relayed_by": "127.0.0.1:50987",
+  "confirmed": "0001-01-01T00:00:00Z",
+  "received": "2014-09-04T15:23:43.95376663Z",
+  "ver": 1,
+  "lock_time": 0,
+  "vin_sz": 1,
+  "vout_sz": 2,
+  "confirmations": 0,
+  "inputs": [
+    {
+      "prev_hash": "075f42cabe7eb01efd905d1ca0cb9fa23dd46db0658cd92c0198ef38814999f5",
+      "output_index": 3,
+      "script": "483045022100cca2901981d1c1840830b261963814eb1f14c56627e2a171b07a35ad44d49fbe0220485909ab2b79017861444840efce615e63a0d79fd1b69ef88c3ec00f1af255b5012102b93edbd6aa7df3510a1e76d355428f382e5a25e167560eea34055f6f98d6bae4",
+      "output_value": 89410000,
+      "addresses": [
+        "mvYwMT3aZ5jNcRNNjv7ckxjbqMDtvQbAHz"
+      ],
+      "script_type": "pay-to-pubkey-hash"
+    }
+  ],
+  "outputs": [
+    {
+      "value": 500000,
+      "script": "76a914f343f510e12156df80fee18ea1a319002f55747788ac",
+      "spent_by": "",
+      "addresses": [
+        "n3hDuRYeYaeV4aEBqYF9byMK5B2c3tR1nB"
+      ],
+      "script_type": "pay-to-pubkey-hash"
+    },
+    {
+      "value": 88910000,
+      "script": "76a914a4e9eecbbfd050cb2d47eb0452a97ccb607f53c788ac",
+      "spent_by": "",
+      "addresses": [
+        "mvYwMT3aZ5jNcRNNjv7ckxjbqMDtvQbAHz"
+      ],
+      "script_type": "pay-to-pubkey-hash"
+    }
+  ]
+}
 ```
