@@ -35,7 +35,8 @@ Transaction Example
 ```java
 // Choose API version / currency / network, here v1 on Bitcoin's testnet network
 BlockCypherContext context = new BlockCypherContext("v1", "btc", "test3");
-Transaction transaction = context.getTransactionService().getTransaction("09a228c6cf72989d81cbcd3a906dcb1d4b4a4c1d796537c34925feea1da2af35");
+String txHash = "09a228c6cf72989d81cbcd3a906dcb1d4b4a4c1d796537c34925feea1da2af35"
+Transaction transaction = context.getTransactionService().getTransaction(txHash);
 System.out.println("Transaction is confirmed? " + transaction.getConfirmed());
 System.out.println("Transaction fees are:     " + transaction.getFees());
 ```
@@ -51,14 +52,15 @@ Transaction fees are: 0
 ```java
 // WIF Format
 String myPrivateKey = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-IntermediaryTransaction unsignedTransaction = context.getTransactionService()
-        .newTransaction(new ArrayList<String>(Arrays.asList("mvYwMT3aZ5jNcRNNjv7ckxjbqMDtvQbAHz")),
-                new ArrayList<String>(Arrays.asList("n3hDuRYeYaeV4aEBqYF9byMK5B2c3tR1nB")),
-                500000
-        );
-SignUtils.signWithBase58KeyWithPubKey(unsignedTransaction, myPrivateKey);
+IntermediaryTransaction unsignedTx = context.getTransactionService()
+    .newTransaction(
+	    new ArrayList<String>(Arrays.asList("mvYwMT3aZ5jNcRNNjv7ckxjbqMDtvQbAHz")),
+        new ArrayList<String>(Arrays.asList("n3hDuRYeYaeV4aEBqYF9byMK5B2c3tR1nB")),
+        500000
+    );
+SignUtils.signWithBase58KeyWithPubKey(unsignedTx, myPrivateKey);
 
-Transaction transaction = context.getTransactionService().sendTransaction(unsignedTransaction);
+Transaction transaction = context.getTransactionService().sendTransaction(unsignedTx);
 
 System.out.println("Sent transaction: " + GsonFactory.getGson().toJson(transaction));
 ```
