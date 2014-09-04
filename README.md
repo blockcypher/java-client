@@ -50,7 +50,8 @@ Transaction fees are: 0
 * Create a transaction of 500000 satoshis from address mvYwMT3aZ5jNcRNNjv7ckxjbqMDtvQbAHz to address n3hDuRYeYaeV4aEBqYF9byMK5B2c3tR1nB
 
 ```java
-// WIF Format
+BlockCypherContext context = new BlockCypherContext("v1", "btc", "test3");
+// WIF Format of your private Key
 String myPrivateKey = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 IntermediaryTransaction unsignedTx = context.getTransactionService()
     .newTransaction(
