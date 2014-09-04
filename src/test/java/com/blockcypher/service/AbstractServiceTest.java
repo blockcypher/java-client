@@ -11,7 +11,7 @@ import org.junit.BeforeClass;
 public class AbstractServiceTest {
 
     // In order to signWithBase58Key.. Of course do not store this is plain your java code... This is for test only!
-    protected static final String MY_PRIVATE_KEY = "cQvo4s4QLbZ4V3r9yxuoooZbF98XsGniq5o69qPXk7pmgrLbUqwm";
+    protected static final String MY_PRIVATE_KEY = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 
     protected static BlockCypherContext blockCypherContext;
 
