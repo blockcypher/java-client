@@ -28,18 +28,19 @@ import java.util.Scanner;
  */
 public class EmbeddedServer {
 
-    public static final int SERVER_PORT = 80;
-    private static final Logger logger = Logger.getLogger(WebhookServiceTest.class);
+    private static final int SERVER_PORT = 80;
+    private static final Logger logger = Logger.getLogger(EmbeddedServer.class);
     private static final String NGROK_EXEC = "ngrok";
-    private static Map classInterceptor;
+    private Map classInterceptor;
     private String host;
-    private Process p;
+    private Process processNgrok;
+    private HttpServer httpServer = null;
 
-    private static HttpServer createHttpServer() throws IOException {
+    private HttpServer createHttpServer() throws IOException {
         ResourceConfig config = new ResourceConfig();
         config.packages(true, "com.blockcypher.model");
-        config.register(DynamicBinding.class);
-        config.register(WebhookJsonReader.class);
+        config.register(new DynamicBinding());
+        config.register(new WebhookJsonReader());
         return JdkHttpServerFactory.createHttpServer(getURI(), config);
     }
 
@@ -58,9 +59,8 @@ public class EmbeddedServer {
     }*/
 
     public void start(Map<Class, ReaderTestInterceptor> classInterceptor) {
-        EmbeddedServer.classInterceptor = classInterceptor;
+        this.classInterceptor = classInterceptor;
         logger.info("Starting Embedded Jersey HTTPServer...\n");
-        HttpServer httpServer = null;
         try {
             httpServer = createHttpServer();
         } catch (IOException e) {
@@ -70,10 +70,10 @@ public class EmbeddedServer {
         logger.info("Started Embedded Jersey HTTPServer Successfully !!!");
 
         logger.info("Starting ngrok");
-        ProcessBuilder pb = new ProcessBuilder(NGROK_EXEC, "-log=stdout", String.valueOf(SERVER_PORT));
+        ProcessBuilder processNgrokBuilder = new ProcessBuilder(NGROK_EXEC, "-log=stdout", String.valueOf(SERVER_PORT));
         try {
-            Process p = pb.start();
-            inheritIO(p.getInputStream());
+            processNgrok = processNgrokBuilder.start();
+            inheritIO(processNgrok.getInputStream());
             logger.info("ngrok started");
         } catch (IOException e) {
             logger.error("Error while starting ngrok", e);
@@ -81,7 +81,12 @@ public class EmbeddedServer {
     }
 
     public void destroy() {
-        p.destroy();
+        if (processNgrok != null) {
+            processNgrok.destroy();
+        }
+        if (httpServer != null) {
+            httpServer.stop(1);
+        }
     }
 
     public String getHost() {
@@ -111,16 +116,20 @@ public class EmbeddedServer {
     }
 
     @Provider
-    public static class DynamicBinding implements DynamicFeature {
+    public class DynamicBinding implements DynamicFeature {
 
         @Override
         public void configure(ResourceInfo resourceInfo, FeatureContext context) {
-            if (classInterceptor.containsKey(resourceInfo.getResourceClass()) && resourceInfo.getResourceMethod()
-                    .getName().contains("post")) {
+            if (classInterceptor.containsKey(resourceInfo.getResourceClass())
+                    && resourceInfo.getResourceMethod().getName().contains("post")) {
                 context.register(classInterceptor.get(resourceInfo.getResourceClass()));
             }
         }
 
+    }
+
+    public int getPort() {
+        return SERVER_PORT;
     }
 
 }

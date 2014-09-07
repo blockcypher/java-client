@@ -1,4 +1,4 @@
-package com.blockcypher.annotation;
+package com.blockcypher.utils.annotation;
 
 import org.apache.log4j.Logger;
 
