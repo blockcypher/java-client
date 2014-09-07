@@ -103,6 +103,13 @@ public class Transaction {
     private Long voutSz;
     private Long confirmations;
 
+    private Long receiveCount;
+    private BigDecimal confidence;
+    // low, medium, high,...
+    private String preference;
+    private boolean doubleSpend;
+    private String doubleSpendTx;
+
     private List<Input> inputs = new ArrayList<Input>();
     private List<Output> outputs = new ArrayList<Output>();
 
@@ -174,5 +181,45 @@ public class Transaction {
 
     public Long getConfirmations() {
         return confirmations;
+    }
+
+    public List<String> getAddresses() {
+        return addresses;
+    }
+
+    public Integer getVer() {
+        return ver;
+    }
+
+    public Long getLockTime() {
+        return lockTime;
+    }
+
+    public Long getVinSz() {
+        return vinSz;
+    }
+
+    public Long getVoutSz() {
+        return voutSz;
+    }
+
+    public Long getReceiveCount() {
+        return receiveCount;
+    }
+
+    public BigDecimal getConfidence() {
+        return confidence;
+    }
+
+    public String getPreference() {
+        return preference;
+    }
+
+    public boolean isDoubleSpend() {
+        return doubleSpend;
+    }
+
+    public String getDoubleSpendTx() {
+        return doubleSpendTx;
     }
 }
