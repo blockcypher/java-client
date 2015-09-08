@@ -24,6 +24,8 @@ public class Output {
     private String spentBy;
     private List<String> addresses = new ArrayList<String>();
     private String scriptType;
+    private String dataHex;
+    private String dataString;
 
     public Output() {
     }
@@ -48,4 +50,11 @@ public class Output {
         this.value = value;
     }
 
+    public String getDataHex() {
+        return dataHex;
+    }
+
+    public String getDataString() {
+        return dataHex;
+    }
 }

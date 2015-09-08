@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Input of a transation, ie:
- * <p/>
+ * 
  * {
  * "prev_hash": "c3fe841599794f88374b0aaf0cbd5b3897d75c4dc897a846e6040054d5495d66",
  * "output_index": 0,

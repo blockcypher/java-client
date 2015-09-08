@@ -6,6 +6,7 @@ import com.blockcypher.model.transaction.TransactionConstants;
 import com.blockcypher.model.transaction.input.Input;
 import com.blockcypher.model.transaction.intermediary.IntermediaryTransaction;
 import com.blockcypher.model.transaction.output.Output;
+import com.blockcypher.model.nulldata.NullData;
 import com.blockcypher.utils.config.EndpointConfig;
 import com.blockcypher.utils.gson.GsonFactory;
 import com.blockcypher.utils.rest.RestUtils;
@@ -126,6 +127,17 @@ public final class TransactionService extends AbstractService {
     public Transaction sendTransaction(IntermediaryTransaction signedTransaction) throws BlockCypherException {
         String transactionJson = GsonFactory.getGson().toJson(signedTransaction);
         return postTransaction(transactionJson, "send");
+    }
+
+    /**
+     * Send a NullData embed via the transaction API.
+     * @param nullData
+     * @return Embeded Data
+     * @throws BlockCypherException
+     */
+    public NullData sendNullData(NullData nullData) throws BlockCypherException {
+        String nullDataJson = GsonFactory.getGson().toJson(nullData);
+        return postTransaction(nullDataJson, "data");
     }
 
 }
