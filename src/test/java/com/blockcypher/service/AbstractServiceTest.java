@@ -18,7 +18,7 @@ public class AbstractServiceTest {
     @BeforeClass
     public static void proxySettings() {
         // proxy only works for @GET, webhooks will NOT work!
-        setProxySettings();
+        // setProxySettings();
         createBlockCypherContext();
     }
 
