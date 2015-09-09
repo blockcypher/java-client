@@ -22,6 +22,15 @@ public class NullData {
     public NullData() {
     }
 
+    public NullData(String data) {
+      this(data, "hex");
+    }
+
+    public NullData(String data, String encoding) {
+      this.data = data;
+      this.encoding = encoding;
+    }
+
     public String getData() {
         return data;
     }

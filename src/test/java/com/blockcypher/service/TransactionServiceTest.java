@@ -2,6 +2,7 @@ package com.blockcypher.service;
 
 import com.blockcypher.exception.BlockCypherException;
 import com.blockcypher.model.transaction.Transaction;
+import com.blockcypher.model.nulldata.NullData;
 import com.blockcypher.model.transaction.intermediary.IntermediaryTransaction;
 import com.blockcypher.utils.sign.SignUtils;
 import com.blockcypher.utils.gson.GsonFactory;
@@ -15,6 +16,7 @@ import java.util.Arrays;
 
 import static junit.framework.Assert.fail;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -31,6 +33,12 @@ public class TransactionServiceTest extends AbstractServiceTest {
                 .getTransaction("09a228c6cf72989d81cbcd3a906dcb1d4b4a4c1d796537c34925feea1da2af35");
         assertEquals(new BigDecimal(0), transaction.getFees());
         assertEquals(new Long(271609), transaction.getBlockHeight());
+    }
+
+    @Test
+    public void testSendNullData() throws BlockCypherException, IOException {
+        NullData sentNullData = blockCypherContext.getTransactionService().sendNullData(new NullData("hello there", "string"));
+        assertTrue(sentNullData.getHash().length() > 0);
     }
 
     @Test(expected = BlockCypherException.class)
