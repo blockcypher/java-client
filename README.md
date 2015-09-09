@@ -12,7 +12,7 @@ Add this to your POM:
         <dependency>
             <groupId>com.blockcypher</groupId>
             <artifactId>java-client</artifactId>
-            <version>0.1.0</version>
+            <version>0.1.2</version>
         </dependency>
     </dependencies>
 
@@ -33,8 +33,8 @@ Transaction Example
 * Get an existing transaction with a given hash:
 
 ```java
-// Choose API version / currency / network, here v1 on Bitcoin's testnet network
-BlockCypherContext context = new BlockCypherContext("v1", "btc", "test3");
+// Choose API version / currency / network / token, here v1 on Bitcoin's testnet network
+BlockCypherContext context = new BlockCypherContext("v1", "btc", "test3", "YOURTOKEN");
 String txHash = "09a228c6cf72989d81cbcd3a906dcb1d4b4a4c1d796537c34925feea1da2af35"
 Transaction transaction = context.getTransactionService().getTransaction(txHash);
 System.out.println("Transaction is confirmed? " + transaction.getConfirmed());
@@ -50,7 +50,7 @@ Transaction fees are: 0
 * Create a transaction of 500000 satoshis from address mvYwMT3aZ5jNcRNNjv7ckxjbqMDtvQbAHz to address n3hDuRYeYaeV4aEBqYF9byMK5B2c3tR1nB
 
 ```java
-BlockCypherContext context = new BlockCypherContext("v1", "btc", "test3");
+BlockCypherContext context = new BlockCypherContext("v1", "btc", "test3", "YOURTOKEN");
 // WIF Format of your private Key
 String myPrivateKey = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 IntermediaryTransaction unsignedTx = context.getTransactionService()
@@ -122,3 +122,13 @@ Sent transaction:
   ]
 }
 ```
+
+NullData Example
+-----
+* Embed an OP_RETURN into the testnet blockchain and retrieve the resulting transaction hash:
+
+```java
+BlockCypherContext context = new BlockCypherContext("v1", "btc", "test3", "YOURTOKEN");
+NullData sentNullData = context.getTransactionService().sendNullData(new NullData("hello there", "string"));
+System.out.println("Transaction hash of data embed:   " +  sentNullData.getHash());
+``` 
