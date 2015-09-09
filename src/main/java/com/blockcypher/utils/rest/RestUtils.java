@@ -33,7 +33,7 @@ public final class RestUtils {
                 endpointConfig.getVersion(),
                 endpointConfig.getCurrency(),
                 endpointConfig.getNetwork(),
-                id);
+                id) + "?token=" + endpointConfig.getToken();
     }
 
 }
