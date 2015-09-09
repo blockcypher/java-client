@@ -25,8 +25,9 @@ public class AbstractServiceTest {
     protected static void createBlockCypherContext() {
         blockCypherContext = new BlockCypherContext(BlockCypherRestfulConstants.VERSION_V1,
                 BlockCypherRestfulConstants.CURRENCY_BTC,
-                BlockCypherRestfulConstants.NETWORK_BTC_TESTNET);
-                //BlockCypherRestfulConstants.NETWORK_MAIN);
+                BlockCypherRestfulConstants.NETWORK_BTC_TESTNET,
+                "javatesttoken");
+                //you can replace "javatesttoken" with your own token
     }
 
     private static void setProxySettings() {
