@@ -59,6 +59,10 @@ public final class TransactionService extends AbstractService {
         return (RestUtils.post(RestUtils.formatUrl(resourceUrl, endpointConfig, id), signedTransaction, id, IntermediaryTransaction.class)).getTx();
     }
 
+    private NullData postNullData(String nullData, String id) throws BlockCypherException {
+        return RestUtils.post(RestUtils.formatUrl(resourceUrl, endpointConfig, id), nullData, id, NullData.class);
+    }
+
     /**
      * Create an Intermediary Transaction from skeleton. You will then need to sign this transaction with your private key
      *
@@ -137,7 +141,7 @@ public final class TransactionService extends AbstractService {
      */
     public NullData sendNullData(NullData nullData) throws BlockCypherException {
         String nullDataJson = GsonFactory.getGson().toJson(nullData);
-        return postTransaction(nullDataJson, "data");
+        return postNullData(nullDataJson, "data");
     }
 
 }

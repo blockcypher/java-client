@@ -21,8 +21,7 @@ public class InfoServiceTest extends AbstractServiceTest {
 
     @Test
     public void testGetInfo() throws BlockCypherException, IOException {
-        Info info = blockCypherContext.getInfoService()
-                .getInfo();
+        Info info = blockCypherContext.getInfoService().getInfo();
         assertFalse(StringUtils.isBlank(info.getName()));
     }
 
