@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * EndpointConfig holds the endpoint config: version, currency, network
+ * EndpointConfig holds the endpoint config: version, currency, network, token
  * If empty constructor is provided attempt to read it from blockcypher.endpoint.properties on classpath
  * @author <a href="mailto:seb.auvray@gmail.com">Sebastien Auvray</a>
  */
@@ -20,20 +20,23 @@ public class EndpointConfig {
     private static String propertyFileVersion;
     private static String propertyFileCurrency;
     private static String propertyFileNetwork;
+    private static String propertyFileToken;
     private static String propertyFileEndpoint;
     private String version = null;
     private String currency = null;
     private String network = null;
+    private String token = null;
     private String endpoint = null;
 
-    public EndpointConfig(String version, String currency, String network) {
-        this(version, currency, network, BlockCypherRestfulConstants.BLOCK_CYPHER_ENDPOINT);
+    public EndpointConfig(String version, String currency, String network, String token) {
+        this(version, currency, network, token, BlockCypherRestfulConstants.BLOCK_CYPHER_ENDPOINT);
     }
 
-    public EndpointConfig(String version, String currency, String network, String endpoint) {
+    public EndpointConfig(String version, String currency, String network, String token, String endpoint) {
         this.version = version;
         this.currency = currency;
         this.network = network;
+        this.token = token;
         this.endpoint = endpoint;
     }
 
@@ -41,6 +44,7 @@ public class EndpointConfig {
         this.version = propertyFileVersion;
         this.currency = propertyFileCurrency;
         this.network = propertyFileNetwork;
+				this.token = propertyFileToken;
         this.endpoint = propertyFileEndpoint;
     }
 
@@ -54,6 +58,7 @@ public class EndpointConfig {
                 propertyFileVersion = prop.getProperty("version");
                 propertyFileCurrency = prop.getProperty("currency");
                 propertyFileNetwork = prop.getProperty("network");
+                propertyFileToken = prop.getProperty("token");
                 propertyFileEndpoint = prop.getProperty("endpoint");
             }
         } catch (IOException e) {
@@ -73,6 +78,10 @@ public class EndpointConfig {
         return network;
     }
 
+    public String getToken() {
+        return token;
+    }
+
     public String getEndpoint() {
         return endpoint;
     }
@@ -81,6 +90,7 @@ public class EndpointConfig {
         return !(StringUtils.isBlank(version) ||
                 StringUtils.isBlank(currency) ||
                 StringUtils.isBlank(network) ||
+                StringUtils.isBlank(token) ||
                 StringUtils.isBlank(endpoint));
     }
 
