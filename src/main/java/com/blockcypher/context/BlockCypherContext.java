@@ -36,8 +36,8 @@ public final class BlockCypherContext {
             throw new RuntimeException("Creating BlockCypherContext() but you did not provide:" + EndpointConfig.PROPERTY_FILE);
         }
         logger.info(MessageFormat.format("Creating BlockCypherContext with version {0}, " +
-                        "currency {1}, network {2} on endpoint {3}",
-                endpointConfig.getVersion(), endpointConfig.getCurrency(), endpointConfig.getNetwork(), endpointConfig.getEndpoint()));
+                        "currency {1}, network {2} on endpoint {3} with token {4}",
+                endpointConfig.getVersion(), endpointConfig.getCurrency(), endpointConfig.getNetwork(), endpointConfig.getEndpoint(), endpointConfig.getToken()));
         createServices(endpointConfig);
     }
 
@@ -46,12 +46,13 @@ public final class BlockCypherContext {
      * @param version API version, ie: v1
      * @param currency currency, ie: btc (bitcoin), ltc (lightcoin), uro (urocoin)
      * @param network network, ie: main, test, test3
+		 * @param token token, ie: YOURTOKEN
      */
-    public BlockCypherContext(String version, String currency, String network) {
-        endpointConfig = new EndpointConfig(version, currency, network);
+    public BlockCypherContext(String version, String currency, String network, String token) {
+        endpointConfig = new EndpointConfig(version, currency, network, token);
         logger.info(MessageFormat.format("Creating BlockCypherContext with version {0}, " +
-                        "currency {1}, network {2} on endpoint {3}",
-                version, currency, network, endpointConfig.getEndpoint()));
+                        "currency {1}, network {2} on endpoint {3} with token {4}",
+                version, currency, network, endpointConfig.getEndpoint(), endpointConfig.getToken()));
         createServices(endpointConfig);
     }
 
