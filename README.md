@@ -3,7 +3,7 @@ java-client
 
 Java SDK for BlockCypher
 
-Maven
+<!--Maven
 -----
 Add this to your POM:
 
@@ -27,7 +27,8 @@ Add this to your POM:
         </repository>
     </repositories>
 ```	
-	
+-->
+
 Transaction Example
 -----
 * Get an existing transaction with a given hash:
