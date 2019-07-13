@@ -3,6 +3,11 @@ java-client
 
 Java SDK for BlockCypher
 
+May requires the following dependencies to be added to your project:
+- org.glassfish.jersey.core -> jersey-client 2.9
+- javax.ws.rs -> javax.ws.rs-api 2.0.1
+- com.madgag -> sc-light-jdk15on 1.47.0.3
+
 <!--Maven
 -----
 Add this to your POM:

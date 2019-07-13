@@ -17,11 +17,14 @@ import org.spongycastle.util.encoders.Hex;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.List;
+
+import static java.util.Collections.singletonList;
 
 /**
  * Util to sign a transaction
+ *
  * @author <a href="mailto:seb.auvray@gmail.com">Sebastien Auvray</a>
  */
 public class SignUtils {
@@ -29,50 +32,64 @@ public class SignUtils {
     private static final Logger logger = Logger.getLogger(SignUtils.class);
 
     public static void signWithHexKeyNoPubKey(IntermediaryTransaction unsignedTransaction, String hexKey) {
-        sign(unsignedTransaction, hexKey, true, false);
+        sign(unsignedTransaction, singletonList(hexKey), true, false);
+    }
+
+    public static void signWithHexKeyNoPubKey(IntermediaryTransaction unsignedTransaction, List<String> hexKeys) {
+        sign(unsignedTransaction, hexKeys, true, false);
     }
 
     public static void signWithHexKeyWithPubKey(IntermediaryTransaction unsignedTransaction, String hexKey) {
-        sign(unsignedTransaction, hexKey, true, true);
+        sign(unsignedTransaction, singletonList(hexKey), true, true);
+    }
+
+    public static void signWithHexKeyWithPubKey(IntermediaryTransaction unsignedTransaction, List<String> hexKeys) {
+        sign(unsignedTransaction, hexKeys, true, true);
     }
 
     public static void signWithBase58KeyWithPubKey(IntermediaryTransaction unsignedTransaction, String privateKey) {
-        sign(unsignedTransaction, privateKey, false, true);
+        sign(unsignedTransaction, singletonList(privateKey), false, true);
     }
 
-    private static void sign(IntermediaryTransaction unsignedTransaction, String privateKey, boolean isHex, boolean addPubKey) {
-        byte[] bytes;
-        boolean compressed = false;
-        if (isHex) {
-            // nothing to do
-            bytes = Hex.decode(privateKey);
-        } else {
-            bytes = getBytesFromBase58Key(privateKey);
-        }
-        if (bytes.length == 33 && bytes[32] == 1) {
-            compressed = true;
-            bytes = Arrays.copyOf(bytes, 32);  // Chop off the additional marker byte.
-        }
-        BigInteger privKeyB = new BigInteger(1, bytes);
+    public static void signWithBase58KeyWithPubKey(IntermediaryTransaction unsignedTransaction, List<String> privateKeys) {
+        sign(unsignedTransaction, privateKeys, false, true);
+    }
 
+    private static void sign(IntermediaryTransaction unsignedTransaction, List<String> privateKeys, boolean isHex, boolean addPubKey) {
         X9ECParameters params = SECNamedCurves.getByName("secp256k1");
         ECDomainParameters CURVE = new ECDomainParameters(params.getCurve(), params.getG(), params.getN(), params.getH());
         BigInteger HALF_CURVE_ORDER = params.getN().shiftRight(1);
-        SecureRandom secureRandom = new SecureRandom();
-
-        ECPoint point = CURVE.getG().multiply(privKeyB);
-        if (compressed) {
-            point = new ECPoint.Fp(CURVE.getCurve(), point.getX(), point.getY(), true);
-        }
-
-        byte[] publicKey = point.getEncoded();
-
-        ECDSASigner signer = new ECDSASigner();
-        ECPrivateKeyParameters privKey = new ECPrivateKeyParameters(privKeyB, CURVE);
-        signer.init(true, privKey);
 
         for (int i = 0; i < unsignedTransaction.getTosign().size(); i++) {
             String toSign = unsignedTransaction.getTosign().get(i);
+
+            String privateKey = privateKeys.get(i);
+            byte[] bytes;
+            boolean compressed = false;
+            if (isHex) {
+                // nothing to do
+                bytes = Hex.decode(privateKey);
+            } else {
+                bytes = getBytesFromBase58Key(privateKey);
+            }
+            if (bytes.length == 33 && bytes[32] == 1) {
+                compressed = true;
+                bytes = Arrays.copyOf(bytes, 32);  // Chop off the additional marker byte.
+            }
+            BigInteger privKeyB = new BigInteger(1, bytes);
+
+            ECPoint point = CURVE.getG().multiply(privKeyB);
+            if (compressed) {
+                point = new ECPoint.Fp(CURVE.getCurve(), point.getX(), point.getY(), true);
+            }
+
+            byte[] publicKey = point.getEncoded();
+
+            ECDSASigner signer = new ECDSASigner();
+            ECPrivateKeyParameters privKey = new ECPrivateKeyParameters(privKeyB, CURVE);
+            signer.init(true, privKey);
+
+
             if (addPubKey) {
                 logger.info("Pushing Pub key for input");
                 unsignedTransaction.addPubKeys(bytesToHexString(publicKey));
