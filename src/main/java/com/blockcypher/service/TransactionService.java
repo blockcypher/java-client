@@ -12,6 +12,7 @@ import com.blockcypher.utils.gson.GsonFactory;
 import com.blockcypher.utils.rest.RestUtils;
 
 import java.math.BigDecimal;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -68,10 +69,43 @@ public final class TransactionService extends AbstractService {
      *
      * @param inputAddresses  input addresses
      * @param outputAddresses output addresses
+     * @param satoshis        values
+     * @return Partially built transaction with the data to sign
+     * @throws BlockCypherException In case there is some error, ie: <code>Address xxx with balance 0 does not have enough funds to transfer 510000.</code>
+     */
+    public IntermediaryTransaction newTransaction(List<String> inputAddresses, List<String> outputAddresses,
+                                                  List<Long> satoshis) throws BlockCypherException {
+        Transaction transaction = new Transaction();
+
+        for (String address : inputAddresses) {
+            Input input = new Input();
+            input.addAddress(address);
+            transaction.addInput(input);
+        }
+
+        Iterator<Long> satoshiIterator = satoshis.iterator();
+
+        for (String address : outputAddresses) {
+            Output output = new Output();
+            output.addAddress(address);
+            output.setValue(new BigDecimal(satoshiIterator.next()));
+            transaction.addOutput(output);
+        }
+        String transactionJson = GsonFactory.getGson().toJson(transaction);
+        return postSkeletonTransaction(transactionJson, "new");
+    }
+
+
+    /**
+     * Create an Intermediary Transaction from skeleton. You will then need to sign this transaction with your private key
+     *
+     * @param inputAddresses  input addresses
+     * @param outputAddresses output addresses
      * @param satoshis        value
      * @return Partially built transaction with the data to sign
      * @throws BlockCypherException In case there is some error, ie: <code>Address xxx with balance 0 does not have enough funds to transfer 510000.</code>
      */
+    @Deprecated
     public IntermediaryTransaction newTransaction(List<String> inputAddresses, List<String> outputAddresses,
                                                   long satoshis) throws BlockCypherException {
         Transaction transaction = new Transaction();
