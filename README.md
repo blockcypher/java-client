@@ -1,3 +1,6 @@
+**Due to the lack of usage, the Java SDK has been deprecated. However our [RESTful APIs](https://www.blockcypher.com/dev/bitcoin/#restful-resources) are extremely easy to integrate with any good HTTP client library.**
+
+
 java-client
 ===========
 
